@@ -122,10 +122,10 @@ self:Exception(\"ThreadRuntimeException\",e,t)end","exceptions.ThreadRuntimeExce
 
 
 
-local sheets = dofile "/sheets.lua"
+local sheets = dofile "/manos_dir/sheets.lua"
 local colour = sheets.colour
-local quarryManager = dofile "/quarry_manager.lua"
-local sharingManager = dofile "/sharing_manager.lua"
+local quarryManager = dofile "/manos_dir/quarry_manager.lua"
+local sharingManager = dofile "/manos_dir/sharing_manager.lua"
 
 
 class "CandC" {
