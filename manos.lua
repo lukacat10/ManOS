@@ -132,7 +132,10 @@ class "CandC" {
     application = nil,
     parent = nil,
     errorText = nil,
-    exitBtn = nil
+    exitBtn = nil,
+    updateBtn = nil,
+    quarry = nil,
+    sharing = nil
 }
 
 function CandC:CandC(application, parent)
@@ -160,6 +163,21 @@ function CandC:initExitBtn()
 
     self.exitBtn.application = self.application
     function self.exitBtn:onClick()
+        self.application:stop()
+    end
+end
+
+function CandC:initUpdateBtn()
+    self.updateBtn = sheets.Button( self.parent.width - 7, 0, 1, 1, "Update" )
+    self.updateBtn.style:setField("textColour", colour.white)
+    self.updateBtn.style:setField("colour", colour.lightGrey)
+    self.updateBtn.style:setField("colour.pressed", colour.grey)
+    self.parent:addChild( self.updateBtn )
+
+    self.updateBtn.application = self.application
+    function self.updateBtn:onClick()
+        shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/installer.lua")
+        shell.run("installer")
         self.application:stop()
     end
 end
