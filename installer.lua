@@ -7,6 +7,9 @@ if shell.getRunningProgram() ~= "startup" then
     fs.copy(shell.getRunningProgram(), "startup")
     os.reboot()
 end
+if fs.exists("installer.lua") then
+    fs.delete("installer.lua")
+end
 if fs.exists("manos.lua") then
     fs.delete("manos.lua")
 end
@@ -43,3 +46,4 @@ elseif fs.exists("startup.lua") then
     fs.delete("startup.lua")
 end
 fs.move("manos.lua", "startup")
+os.reboot()
