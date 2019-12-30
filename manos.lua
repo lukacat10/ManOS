@@ -169,7 +169,7 @@ function CandC:initExitBtn()
 end
 
 function CandC:initUpdateBtn()
-    self.updateBtn = sheets.Button( self.parent.width - 7, 0, 1, 1, "Update" )
+    self.updateBtn = sheets.Button( self.parent.width - 8, 0, 6, 1, "Update" )
     self.updateBtn.style:setField("textColour", colour.white)
     self.updateBtn.style:setField("colour", colour.lightGrey)
     self.updateBtn.style:setField("colour.pressed", colour.grey)
