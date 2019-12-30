@@ -148,6 +148,7 @@ function CandC:CandC(application, parent)
     parent:addChild( self.errorText )
 
     self:initExitBtn()
+    self:initUpdateBtn()
     self:initQuarryControl()
     self:initSharingControl()
     print(self.parent.width)
