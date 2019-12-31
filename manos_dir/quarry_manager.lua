@@ -80,8 +80,8 @@ function QuarryManager:QuarryManager( checkBox, statusText )
     self.statusText = statusText
 
     function checkBox:onCheck()
-        if fs.exists("open") or fs.exists("open.lua") then
-            os.run({}, "open")
+        if fs.exists("manos_programs/open") or fs.exists("manos_programs/open.lua") then
+            os.run({}, "manos_programs/open")
         elseif self.quarryManager.errorText ~= nil then
             self.quarryManager.errorText:setText("Error running 'open'!")
             self.checked = false
@@ -89,8 +89,8 @@ function QuarryManager:QuarryManager( checkBox, statusText )
     end
 
     function checkBox:onUnCheck()
-        if fs.exists("close") or fs.exists("close.lua") then
-            os.run({}, "close")
+        if fs.exists("manos_programs/close") or fs.exists("manos_programs/close.lua") then
+            os.run({}, "manos_programs/close")
         elseif self.quarryManager.errorText ~= nil then
             self.quarryManager.errorText:setText("Error running 'close'!")
             self.checked = false

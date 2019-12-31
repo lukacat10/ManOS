@@ -62,6 +62,9 @@ shell.run("pastebin get https://pastebin.com/iwc51FGa manos_programs/open")
 shell.run("pastebin get https://pastebin.com/DNFCQ38i manos_programs/close")
 shell.run("pastebin get https://pastebin.com/qt4v7tKt manos_programs/startsharing")
 shell.run("pastebin get https://pastebin.com/BvdBz8bP manos_programs/stopsharing")
+if fs.exists("json") ~= true then
+    shell.run("pastebin get 4nRg9CHU json")
+end
 if fs.exists("startup") then
     fs.delete("startup")
 elseif fs.exists("startup.lua") then

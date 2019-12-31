@@ -79,16 +79,16 @@ function SharingManager:SharingManager( checkBox, statusText )
     checkBox.sharingManager = self
     self.statusText = statusText
     function checkBox:onCheck()
-        if fs.exists("startsharing") or fs.exists("startsharing.lua") then
-            os.run({}, "startsharing")
+        if fs.exists("manos_programs/startsharing") or fs.exists("manos_programs/startsharing.lua") then
+            os.run({}, "manos_programs/startsharing")
         elseif self.sharingManager.errorText ~= nil then
             self.sharingManager.errorText:setText("Error running 'startsharing'!")
             self.checked = false
         end
     end
     function checkBox:onUnCheck()
-        if fs.exists("stopsharing") or fs.exists("stopsharing.lua") then
-            os.run({}, "stopsharing")
+        if fs.exists("manos_programs/stopsharing") or fs.exists("manos_programs/stopsharing.lua") then
+            os.run({}, "manos_programs/stopsharing")
         elseif self.sharingManager.errorText ~= nil then
             self.sharingManager.errorText:setText("Error running 'stopsharing'!")
             self.checked = false
