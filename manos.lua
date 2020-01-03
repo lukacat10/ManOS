@@ -223,7 +223,7 @@ function CandC:initSharingControl()
 end
 
 function CandC:initReactorControl()
-    self.reactor = sheets.Checkbox(1, 3, false)
+    self.reactor = sheets.Checkbox(1, 5, false)
     self.reactor.style:setField("colour", colour.red)
     self.reactor.style:setField("colour.checked", colour.green)
     self.reactor.style:setField("checkColour", colour.transparent)
