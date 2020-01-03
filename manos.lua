@@ -126,6 +126,7 @@ local sheets = dofile "/manos_dir/sheets.lua"
 local colour = sheets.colour
 local quarryManager = dofile "/manos_dir/quarry_manager.lua"
 local sharingManager = dofile "/manos_dir/sharing_manager.lua"
+local reactorManager = dofile "/manos_dir/reactor_manager.lua"
 
 
 class "CandC" {
@@ -135,7 +136,8 @@ class "CandC" {
     exitBtn = nil,
     updateBtn = nil,
     quarry = nil,
-    sharing = nil
+    sharing = nil,
+    reactor = nil
 }
 
 function CandC:CandC(application, parent)
@@ -150,6 +152,7 @@ function CandC:CandC(application, parent)
     self:initExitBtn()
     self:initUpdateBtn()
     self:initQuarryControl()
+    self:initReactorControl()
     self:initSharingControl()
     print(self.parent.width)
     self.application:run()
@@ -217,6 +220,24 @@ function CandC:initSharingControl()
 
     local sharingManagerInstance = sharingManager.SharingManager(self.sharing, self.sharingStatus)
     sharingManagerInstance:setErrorText(self.errorText)
+end
+
+function CandC:initReactorControl()
+    self.reactor = sheets.Checkbox(1, 3, false)
+    self.reactor.style:setField("colour", colour.red)
+    self.reactor.style:setField("colour.checked", colour.green)
+    self.reactor.style:setField("checkColour", colour.transparent)
+    self.parent:addChild( self.reactor )
+
+    local reactorText = sheets.Text(3, 5, 20, 1, "Reactor   Realtime: ")
+    self.parent:addChild( reactorText )
+
+    local reactorStatus = sheets.Text(22, 5, 7, 1, "offline")
+    reactorStatus.style:setField("colour", colour.red)
+    self.parent:addChild( reactorStatus )
+
+    local reactorManagerInstance = reactorManager.ReactorManager(self.reactor, self.reactorStatus)
+    reactorManagerInstance:setErrorText(self.errorText)
 end
 
 class "Main" {
