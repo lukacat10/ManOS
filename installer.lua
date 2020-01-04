@@ -58,7 +58,7 @@ end
 -- END
 -- Download all the libraries and the program itself
 shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/manos.lua")
-shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/startup_programs startup_programs-example")
+shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/startup_programs.json startup_programs-example.json")
 shell.run("mkdir manos_dir")
 shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/manos_dir/quarry_manager.lua manos_dir/quarry_manager.lua")
 shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/manos_dir/sharing_manager.lua manos_dir/sharing_manager.lua")

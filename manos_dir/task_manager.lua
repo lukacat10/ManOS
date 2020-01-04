@@ -204,7 +204,10 @@ function TaskManager:run()
     end
 end
 function TaskManager:loadStartupTasks()
-    file = fs.open("/startup_programs.lua", "r")
+    if fs.exists("startup_programs.json") == false then
+        return
+    end
+    file = fs.open("/startup_programs.json", "r")
     fileContent = file.readAll()
     file.close()
     fileData = json.decode(fileContent)
