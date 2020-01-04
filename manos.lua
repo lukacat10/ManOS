@@ -127,6 +127,7 @@ local colour = sheets.colour
 local quarryManager = dofile "/manos_dir/quarry_manager.lua"
 local sharingManager = dofile "/manos_dir/sharing_manager.lua"
 local reactorManager = dofile "/manos_dir/reactor_manager.lua"
+local taskManager = dofile "/manos_dir/task_manager.lua"
 
 
 class "CandC" {
@@ -140,30 +141,40 @@ class "CandC" {
     reactor = nil
 }
 
-function CandC:CandC(application, parent)
+function CandC:CandC(application, parent, taskMgr)
     self.application = application
+    self.taskMgr = taskMgr
     self.parent = parent
 
-    self.errorText = sheets.Text(0, self.parent.height - 1, self.parent.width, 1, "")
+    self.panel = sheets.Panel(0, 0, self.application.screen.width, self.application.screen.height)
+    self.panel.style:setField("colour", colour.white)
+    self:show()
+    self.panel:setZ(2)
+
+    self.errorText = sheets.Text(0, self.panel.height - 1, self.panel.width, 1, "")
     self.errorText.style:setField("textColour", colour.red)
     self.errorText.style:setField("colour", colour.transparent)
-    parent:addChild( self.errorText )
+    self.panel:addChild( self.errorText )
 
     self:initExitBtn()
     self:initUpdateBtn()
     self:initQuarryControl()
     self:initReactorControl()
     self:initSharingControl()
-    print(self.parent.width)
-    self.application:run()
+    --self:initTasksBtn()
+    print(self.panel.width)
+    
+end
+function CandC:show()
+    self.parent:addChild(self.panel)
 end
 
 function CandC:initExitBtn()
-    self.exitBtn = sheets.Button( self.parent.width - 1, 0, 1, 1, "X" )
+    self.exitBtn = sheets.Button( self.panel.width - 1, 0, 1, 1, "X" )
     self.exitBtn.style:setField("textColour", colour.red)
     self.exitBtn.style:setField("colour", colour.transparent)
     self.exitBtn.style:setField("colour.pressed", colour.lightGrey)
-    self.parent:addChild( self.exitBtn )
+    self.panel:addChild( self.exitBtn )
 
     self.exitBtn.application = self.application
     function self.exitBtn:onClick()
@@ -172,11 +183,11 @@ function CandC:initExitBtn()
 end
 
 function CandC:initUpdateBtn()
-    self.updateBtn = sheets.Button( self.parent.width - 8, 0, 6, 1, "Update" )
+    self.updateBtn = sheets.Button( self.panel.width - 8, 0, 6, 1, "Update" )
     self.updateBtn.style:setField("textColour", colour.white)
     self.updateBtn.style:setField("colour", colour.lightGrey)
     self.updateBtn.style:setField("colour.pressed", colour.grey)
-    self.parent:addChild( self.updateBtn )
+    self.panel:addChild( self.updateBtn )
 
     self.updateBtn.application = self.application
     function self.updateBtn:onClick()
@@ -191,14 +202,14 @@ function CandC:initQuarryControl()
     self.quarry.style:setField("colour", colour.red)
     self.quarry.style:setField("colour.checked", colour.green)
     self.quarry.style:setField("checkColour", colour.transparent)
-    self.parent:addChild( self.quarry )
+    self.panel:addChild( self.quarry )
     local quarryText = sheets.Text(3, 1, 19, 1, "Quarry   Realtime: ")
-    self.parent:addChild( quarryText )
+    self.panel:addChild( quarryText )
 
     -- TODO quarryStatus should be managed only by quarryManager
     local quarryStatus = sheets.Text(22, 1, 7, 1, "offline")
     quarryStatus.style:setField("colour", colour.red)
-    self.parent:addChild( quarryStatus )
+    self.panel:addChild( quarryStatus )
 
     local quarryManagerInstance = quarryManager.QuarryManager(self.quarry, quarryStatus)
     quarryManagerInstance:setErrorText(self.errorText)
@@ -209,14 +220,14 @@ function CandC:initSharingControl()
     self.sharing.style:setField("colour", colour.red)
     self.sharing.style:setField("colour.checked", colour.green)
     self.sharing.style:setField("checkColour", colour.transparent)
-    self.parent:addChild( self.sharing )
+    self.panel:addChild( self.sharing )
 
     local sharingText = sheets.Text(3, 3, 20, 1, "Sharing   Realtime: ")
-    self.parent:addChild( sharingText )
+    self.panel:addChild( sharingText )
 
     local sharingStatus = sheets.Text(22, 3, 7, 1, "offline")
     sharingStatus.style:setField("colour", colour.red)
-    self.parent:addChild( sharingStatus )
+    self.panel:addChild( sharingStatus )
 
     local sharingManagerInstance = sharingManager.SharingManager(self.sharing, self.sharingStatus)
     sharingManagerInstance:setErrorText(self.errorText)
@@ -227,17 +238,27 @@ function CandC:initReactorControl()
     self.reactor.style:setField("colour", colour.red)
     self.reactor.style:setField("colour.checked", colour.green)
     self.reactor.style:setField("checkColour", colour.transparent)
-    self.parent:addChild( self.reactor )
+    self.panel:addChild( self.reactor )
 
     local reactorText = sheets.Text(3, 5, 20, 1, "Reactor   Realtime: ")
-    self.parent:addChild( reactorText )
+    self.panel:addChild( reactorText )
 
     local reactorStatus = sheets.Text(22, 5, 7, 1, "offline")
     reactorStatus.style:setField("colour", colour.red)
-    self.parent:addChild( reactorStatus )
+    self.panel:addChild( reactorStatus )
 
     local reactorManagerInstance = reactorManager.ReactorManager(self.reactor, self.reactorStatus)
     reactorManagerInstance:setErrorText(self.errorText)
+end
+function CandC:initTasksBtn()
+    self.tasks = sheets.Button(0, self.panel.height - 2, 14, 1, " Task Manager ")
+    self.tasks.taskMgr = self.taskMgr
+    self.tasks.panel = self.panel
+    function self.tasks:onClick()
+        --self.panel:remove()
+        self.taskMgr:show()
+    end
+    self.panel:addChild( self.tasks )
 end
 
 class "Main" {
@@ -246,10 +267,20 @@ class "Main" {
 }
 function Main:Main()
     self.application = sheets.Application()
-    self.candcPanel = sheets.Panel(0, 0, self.application.screen.width, self.application.screen.height)
-    self.candcPanel.style:setField("colour", colour.white)
-    self.application.screen:addChild(self.candcPanel)
-    cc = CandC(self.application, self.candcPanel)
+    --self.candcPanel = sheets.Panel(0, 0, self.application.screen.width, self.application.screen.height)
+    --self.candcPanel.style:setField("colour", colour.white)
+    --self.application.screen:addChild(self.candcPanel)
+    
+    panelo = sheets.Panel(0, 0, self.application.screen.width, self.application.screen.height)
+    self.application.screen:addChild(panelo)
+    cc = CandC(self.application, panelo, self.tm)
+    self.tm = taskManager.TaskManager(self.application, panelo, sheets, cc)
+    self.tm:show()
+    self.tm:addTask("app", self.application.run, self.application)
+    self.tm:run()
+    
+    
+    --self.application:run()
 end
 Main()
 

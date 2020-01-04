@@ -1,0 +1,16 @@
+[
+    {
+        "name": "soft1",
+        "abs_path": "/soft1.lua",
+        "args": [
+            "args1", "arg2"
+        ]
+    },
+    {
+        "name": "soft2",
+        "abs_path": "/soft2.lua",
+        "args": [
+            "args1", "arg2"
+        ]
+    }
+]

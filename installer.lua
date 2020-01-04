@@ -54,24 +54,27 @@ end
 if fs.exists("sharing_manager.lua") then
     fs.delete("sharing_manager.lua")
 end
-if fs.exists("reactor_manager.lua") then
-    fs.delete("reactor_manager.lua")
-end
 
 -- END
 -- Download all the libraries and the program itself
 shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/manos.lua")
+shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/startup_programs startup_programs-example")
 shell.run("mkdir manos_dir")
 shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/manos_dir/quarry_manager.lua manos_dir/quarry_manager.lua")
 shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/manos_dir/sharing_manager.lua manos_dir/sharing_manager.lua")
 shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/manos_dir/reactor_manager.lua manos_dir/reactor_manager.lua")
+shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/manos_dir/task_manager.lua manos_dir/task_manager.lua")
+
+shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/manos_dir/linkedlist.lua manos_dir/linkedlist.lua")
+shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/manos_dir/list.lua manos_dir/list.lua")
+
 shell.run("wget https://raw.githubusercontent.com/lukacat10/ManOS/master/manos_dir/sheets.lua manos_dir/sheets.lua")
 shell.run("pastebin get https://pastebin.com/iwc51FGa manos_programs/open")
 shell.run("pastebin get https://pastebin.com/DNFCQ38i manos_programs/close")
 shell.run("pastebin get https://pastebin.com/qt4v7tKt manos_programs/startsharing")
 shell.run("pastebin get https://pastebin.com/BvdBz8bP manos_programs/stopsharing")
-if fs.exists("json") ~= true then
-    shell.run("pastebin get 4nRg9CHU json")
+if fs.exists("manos_dir/json") ~= true then
+    shell.run("pastebin get 4nRg9CHU manos_dir/json.lua")
 end
 --END
 -- Set ManOS to run at startup
